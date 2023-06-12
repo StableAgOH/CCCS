@@ -7,12 +7,13 @@ import threading
 import time
 from datetime import datetime, timedelta
 
+import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import PlainTextResponse, StreamingResponse
 
-from src.cf import CodeforcesContest
-from src.colors import colors
-from src.contest import Contest
+from cccs.cf import CodeforcesContest
+from cccs.colors import colors
+from cccs.contest import Contest
 
 config = json.load(open("config.json", "r", encoding="UTF-8"))
 scoreboard_freeze_duration = timedelta(hours=config["freeze_hours"])
@@ -240,6 +241,4 @@ async def api_contests_event_feed(req: Request, stream: bool = True):
 
 
 if __name__ == "__main__":
-    import uvicorn
-
     uvicorn.run(app, host="0.0.0.0", port=5353)
